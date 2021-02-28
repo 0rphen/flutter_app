@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/colors.dart';
+import 'package:flutter_app/utils/firebaseController.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app/utils/resize.dart';
 
@@ -9,8 +10,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _email = new TextEditingController();
+  final TextEditingController _password = new TextEditingController();
+  final FirebaseController _firebaseController = new FirebaseController();
   @override
   Widget build(BuildContext context) {
+    _firebaseController.initializing();
     final double _height = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -82,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                               shadowColor: Colors.black,
                               borderRadius: BorderRadius.circular(20.0),
                               child: TextField(
+                                controller: _email,
                                 keyboardType: TextInputType.name,
                                 enableSuggestions: true,
                                 decoration: InputDecoration(
@@ -100,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                               shadowColor: Colors.black,
                               borderRadius: BorderRadius.circular(20.0),
                               child: TextField(
+                                controller: _password,
                                 obscureText: true,
                                 enableSuggestions: true,
                                 decoration: InputDecoration(
@@ -121,8 +128,17 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(height: 50.0),
                             RaisedButton(
                               onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, '/news');
+                                if (_email.text.isEmpty ||
+                                    _password.text.isEmpty) {
+                                  print('error');
+                                } else {
+                                  _firebaseController.login(
+                                      email: _email.text,
+                                      password: _password.text);
+                                  _firebaseController.stateFirebase(context);
+                                }
+                                // Navigator.pushReplacementNamed(
+                                //     context, '/news');
                               },
                               padding: EdgeInsets.symmetric(
                                   vertical: 20.0, horizontal: 150.0),
@@ -147,7 +163,10 @@ class _LoginPageState extends State<LoginPage> {
                   child: SizedBox(),
                 ),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                      context, '/register');
+                  },
                   padding:
                       EdgeInsets.symmetric(vertical: 20.0, horizontal: 150.0),
                   color: Colors.white,

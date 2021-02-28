@@ -3,6 +3,7 @@ import 'package:flutter_app/model/news.dart';
 import 'package:flutter_app/view/widgets/news_card.dart';
 
 class BuildItemList extends StatelessWidget {
+
   final News snapshotNews;
   final Function(News) onTapFav;
   
