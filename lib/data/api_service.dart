@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/model/news.dart';
+import 'package:http/http.dart' as http;
 
 class ApiService {
   String urlForApi(optionUrl) {
@@ -16,7 +19,7 @@ class ApiService {
       case 5: //Wallstreet
         return 'https://newsapi.org/v2/everything?domains=wsj.com&apiKey=316910e3784d49278ec306613c5f9576';
       default:
-        return 'https://newsapi.org/v2/everything?q=tesla&sortBy=publishedAt&apiKey=316910e3784d49278ec306613c5f9576';
+        return 'newsapi.org';
     }
   }
 
@@ -28,5 +31,21 @@ class ApiService {
     } else {
       print('Error inesperado en la petición');
     }
+  }
+
+  String getApiKey() {
+    return '316910e3784d49278ec306613c5f9576';
+  }
+
+  getSearch({@required String exp}) async {
+    print(exp);
+    final url = Uri.https(
+      urlForApi(6),
+      '/v2/everything',
+      {'q': exp, 'apiKey': getApiKey()},
+    );
+    final response = await http.get(url);
+    final decodeD = json.decode(response.body);
+    return NewsApiModel.fromJson(decodeD);
   }
 }

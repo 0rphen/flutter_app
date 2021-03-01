@@ -14,7 +14,7 @@ class FirebaseController extends StatelessWidget {
           print('User logged out');
         } else {
           print('User logged in');
-          Navigator.pushNamed(context, '/news');
+          Navigator.pushReplacementNamed(context, '/news');
         }
     });
   }
@@ -26,8 +26,7 @@ class FirebaseController extends StatelessWidget {
 
   void login({@required email, @required password}) async {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/view/finder_page.dart';
 import 'package:flutter_app/view/login_page.dart';
 import 'package:flutter_app/view/news_page.dart';
 import 'package:flutter_app/view/register.dart';
@@ -26,6 +27,8 @@ class _MyAppState extends State<MyApp> {
             return MaterialPageRoute(builder: (context) => NewsPage());
           case '/register':
             return MaterialPageRoute(builder: (context) => RegisterUser());
+          case '/finder':
+            return MaterialPageRoute(builder: (context) => FinderPage());
           default:
             return null;
         }
